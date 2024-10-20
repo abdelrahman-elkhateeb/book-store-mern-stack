@@ -18,7 +18,7 @@ function Recommended() {
       .then((data) => setBooks(data));
   }, []);
   return (
-    <div>
+    <div className="py-16">
       <h2 className="text-3xl font-semibold mb-6">Recommended For You</h2>
 
       <Swiper
@@ -46,11 +46,12 @@ function Recommended() {
         }}
         className="mySwiper"
       >
-        {books.map((book, i) => (
-          <SwiperSlide key={i}>
-            <BookCard book={book} />
-          </SwiperSlide>
-        ))}
+        {books.length > 0 &&
+          books.slice(8, 18).map((book, i) => (
+            <SwiperSlide key={i}>
+              <BookCard book={book} />
+            </SwiperSlide>
+          ))}
       </Swiper>
     </div>
   );
