@@ -60,7 +60,7 @@ function TopSellers() {
           })}
         </select>
       </div>
-
+      {/* display filtered books */}
       <Swiper
         slidesPerView={1}
         spaceBetween={30}
@@ -93,8 +93,6 @@ function TopSellers() {
             </SwiperSlide>
           ))}
       </Swiper>
-
-      {/* display filtered books */}
     </div>
   );
 }
