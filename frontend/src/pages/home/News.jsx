@@ -8,7 +8,7 @@ import { Navigation } from "swiper/modules";
 
 // Import Swiper styles
 import "swiper/css";
-import "swiper/css/pagination";
+import "swiper/css/navigation";
 import { Link } from "react-router-dom";
 
 const news = [
@@ -56,6 +56,7 @@ function News() {
       <Swiper
         slidesPerView={1}
         spaceBetween={10}
+        navigation={true}
         breakpoints={{
           640: {
             slidesPerView: 1,
