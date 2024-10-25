@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { HiBars3CenterLeft } from "react-icons/hi2";
+import { LuHome } from "react-icons/lu";
 import { IoCart, IoSearch } from "react-icons/io5";
 import { HiOutlineUser } from "react-icons/hi";
 import { CiHeart } from "react-icons/ci";
@@ -37,7 +37,7 @@ function NavBar() {
         {/* left side */}
         <div className="flex items-center md:gap-16 gap-4">
           <Link to="/">
-            <HiBars3CenterLeft className="size-6" />
+            <LuHome />
           </Link>
           {/* search input */}
           <div className="relative sm:w-72 w-40 space-x-2">
