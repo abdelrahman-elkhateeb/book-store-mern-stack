@@ -1,6 +1,7 @@
 const express = require("express");
-const Book = require("./book.model");
 const router = express.Router();
+
+const { postABook, getAllBooks } = require("./book.controller");
 
 // GET all books
 
@@ -9,19 +10,7 @@ const router = express.Router();
 //put/patch = when edit or update smth
 //delete = when delete smth
 
-router.post("/create-book", async (req, res) => {
-  try {
-    console.log(req.body);
-    
-    const newBook = await Book({ ...req.body });
-    await newBook.save();
-    res
-      .status(200)
-      .send({ message: "book posted successfully", book: newBook });
-  } catch (err) {
-    console.error("error creating a book", err);
-    res.status(500).json({ message: "failed to create a book"});
-  }
-});
+router.post("/create-book", postABook);
+router.get("/get-books", getAllBooks);
 
 module.exports = router;
