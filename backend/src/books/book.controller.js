@@ -17,15 +17,66 @@ const postABook = async (req, res) => {
 
 const getAllBooks = async (req, res) => {
   try {
-    const books = await Book.find({});
-    res.status(200).send(books);
+    const books = await Book.find({}).sort({ createdAt: -1 });
+    res.status(200).send({ message: "book posted successfully", books });
   } catch (err) {
     console.error("error getting books", err);
-    res.status(500).json({ message: "failed to get books" });
+    res.status(500).send({ message: "failed to get books" });
+  }
+};
+
+const getSingleBook = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const book = await Book.findById(id);
+    if (!book) {
+      return res.status(404).send({ message: "book not found" });
+    }
+    res.status(200).send({ message: "book posted successfully", book });
+  } catch (err) {
+    console.error("error getting book", err);
+    res.status(500).send({ message: "failed to get book" });
+  }
+};
+
+const updateBook = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const updatedBook = await Book.findByIdAndUpdate(id, req.body, {
+      new: true,
+    });
+    if (!updatedBook) {
+      return res.status(404).send({ message: "book is not found" });
+    }
+    res
+      .status(200)
+      .send({ message: "book updated successfully", book: updatedBook });
+  } catch (err) {
+    console.error("error updating book", err);
+    res.status(500).send({ message: "failed to update book" });
+  }
+};
+
+const deleteBook = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const deletedBook = await Book.findByIdAndDelete(id);
+    if (!deletedBook) {
+      return res.status(404).send({ message: "book not found" });
+    }
+    res
+      .status(200)
+      .send({ message: "book deleted successfully", book: deletedBook });
+  } catch (err) {
+    console.error("error deleting book", err);
+    res.status(500).send({ message: "failed to delete book" });
   }
 };
 
 module.exports = {
   postABook,
   getAllBooks,
+  getSingleBook,
+  updateBook,
+  deleteBook,
 };
