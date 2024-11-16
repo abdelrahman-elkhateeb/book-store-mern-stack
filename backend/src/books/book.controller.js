@@ -18,7 +18,7 @@ const postABook = async (req, res) => {
 const getAllBooks = async (req, res) => {
   try {
     const books = await Book.find({}).sort({ createdAt: -1 });
-    res.status(200).send({ message: "book posted successfully", books });
+    res.status(200).send(books);
   } catch (err) {
     console.error("error getting books", err);
     res.status(500).send({ message: "failed to get books" });
@@ -32,7 +32,7 @@ const getSingleBook = async (req, res) => {
     if (!book) {
       return res.status(404).send({ message: "book not found" });
     }
-    res.status(200).send({ message: "book posted successfully", book });
+    res.status(200).send(book);
   } catch (err) {
     console.error("error getting book", err);
     res.status(500).send({ message: "failed to get book" });
@@ -50,7 +50,7 @@ const updateBook = async (req, res) => {
     }
     res
       .status(200)
-      .send({ message: "book updated successfully", book: updatedBook });
+      .send({ book: updatedBook });
   } catch (err) {
     console.error("error updating book", err);
     res.status(500).send({ message: "failed to update book" });
