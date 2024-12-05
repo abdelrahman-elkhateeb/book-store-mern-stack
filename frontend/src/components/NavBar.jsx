@@ -6,6 +6,7 @@ import { CiHeart } from "react-icons/ci";
 import avatar from "../assets/avatar.png";
 import { useState } from "react";
 import { useSelector } from "react-redux";
+import { useAuth } from "../context/AuthContext";
 
 const navigation = [
   {
@@ -29,8 +30,11 @@ const navigation = [
 function NavBar() {
   const [isDropDownOpen, setIsDropDownOpen] = useState(false);
   const cartItems = useSelector((state) => state.cart.cartItems);
+  const { currentUser, logout } = useAuth();
+  const handleLogout = () => {
+    logout();
+  };
 
-  const currentUser = false;
   return (
     <header className="max-w-screen-2xl mx-auto px-4 py-6 sticky top-0 z-50 bg-white">
       <nav className=" flex justify-between items-center">
@@ -66,7 +70,7 @@ function NavBar() {
                 </button>
                 {/* show dropdowns */}
                 {isDropDownOpen && (
-                  <div className="absolute right-9 mt-2 w-48 bg-white shadow-lg rounded-md z-40">
+                  <div className="absolute top-8 right-9 mt-2 w-48 bg-white shadow-lg rounded-md z-40">
                     <ul>
                       {navigation.map((item) => (
                         <li
@@ -81,6 +85,14 @@ function NavBar() {
                           </Link>
                         </li>
                       ))}
+                      <li>
+                        <button
+                          onClick={handleLogout}
+                          className="block px-4 py-2 text-sm hover:bg-gray-100 w-full"
+                        >
+                          Logout
+                        </button>
+                      </li>
                     </ul>
                   </div>
                 )}

@@ -2,14 +2,14 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { useAuth } from "../../context/AuthContext";
 
 function CheckoutPage() {
   const cartItems = useSelector((state) => state.cart.cartItems);
-  const currentUser = useSelector((state) => state.user); // Assuming user comes from redux
-
-  const totalPrice = cartItems
-    .reduce((acc, curr) => acc + curr.newPrice, 0)
-    .toFixed(2);
+    const totalPrice = cartItems
+      .reduce((acc, curr) => acc + curr.newPrice, 0)
+      .toFixed(2);
+  const {currentUser} = useAuth();
 
   const {
     register,
@@ -95,7 +95,7 @@ function CheckoutPage() {
                         name="phone"
                         id="phone"
                         className="h-10 border mt-1 rounded px-4 w-full bg-gray-50"
-                        placeholder="+123 456 7890"
+                        placeholder=""
                       />
                     </div>
 
