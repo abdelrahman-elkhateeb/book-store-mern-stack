@@ -6,10 +6,6 @@ const cors = require("cors");
 const port = process.env.PORT || 5000;
 require("dotenv").config();
 
-app.get("/", (req, res) => {
-  res.send("Hello World!");
-});
-
 //middleware
 app.use(express.json());
 
@@ -22,8 +18,10 @@ app.use(
 
 //route
 const bookRoutes = require("./src/books/book.route");
-app.use("/api/books", bookRoutes);
+const orderRoutes = require("./src/orders/order.route");
 
+app.use("/api/books", bookRoutes);
+app.use("/api/orders", orderRoutes);
 main()
   .then(() => console.log("MongoDB connected successfully!"))
   .catch((err) => console.log(err));
