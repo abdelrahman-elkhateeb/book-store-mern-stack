@@ -26,37 +26,58 @@ function CheckoutPage() {
 
   const [isChecked, setIsChecked] = useState(false);
 
-  const onSubmit = async (data) => {
-    const newOrder = {
-      name: data.name,
-      email: currentUser?.email,
-      address: {
-        city: data.city,
-        country: data.country,
-        state: data.state,
-        zipcode: data.zipcode,
-      },
-      phone: data.phone,
-      productIds: cartItems.map((item) => item?._id),
-      totalPrice: totalPrice,
-    };
-    try {
+const onSubmit = async (data) => {
+  const newOrder = {
+    name: data.name,
+    email: currentUser?.email,
+    address: {
+      city: data.city,
+      country: data.country,
+      state: data.state,
+      zipcode: data.zipcode,
+    },
+    phone: data.phone,
+    productIds: cartItems.map((item) => item?._id),
+    totalPrice: totalPrice,
+  };
+
+  try {
+    const result = await Swal.fire({
+      title: "Confirm Order",
+      text: "Do you want to place this order?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, Place Order",
+      cancelButtonText: "No, Go Back",
+    });
+
+    if (result.isConfirmed) {
+      // Only submit the order if the user confirms
       await createOrder(newOrder).unwrap();
       Swal.fire({
-        title: "Confirmed Order",
-        text: "Your order placed successfully!",
-        icon: "warning",
-        showCancelButton: true,
+        title: "Order Confirmed",
+        text: "Your order has been placed successfully!",
+        icon: "success",
         confirmButtonColor: "#3085d6",
-        cancelButtonColor: "#d33",
-        confirmButtonText: "Yes, It's Okay!",
+        confirmButtonText: "Okay",
       });
       navigate("/orders");
-    } catch (error) {
-      console.error("Error place an order", error);
-      alert("Failed to place an order");
+    } else {
+      console.log("Order not placed, user chose to go back.");
     }
-  };
+  } catch (error) {
+    console.error("Error placing an order", error);
+    Swal.fire({
+      title: "Order Failed",
+      text: "Failed to place an order. Please try again.",
+      icon: "error",
+      confirmButtonColor: "#d33",
+      confirmButtonText: "Retry",
+    });
+  }
+};
 
   if (isLoading) return <div>Loading....</div>;
   return (
