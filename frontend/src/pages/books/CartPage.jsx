@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { clearCart, removeFromCart } from "../../redux/features/cart/CartSlice";
+import { clearCart, removeFromCart } from "../../redux/features/cart/cartSlice";
 import { getImgUrl } from "../../utils/getImgUrl";
 
 function CartPage() {
