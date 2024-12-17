@@ -46,14 +46,15 @@ const updateBook = async (req, res) => {
       new: true,
     });
     if (!updatedBook) {
-      return res.status(404).send({ message: "book is not found" });
+      res.status(404).send({ message: "Book is not Found!" });
     }
-    res
-      .status(200)
-      .send({ book: updatedBook });
-  } catch (err) {
-    console.error("error updating book", err);
-    res.status(500).send({ message: "failed to update book" });
+    res.status(200).send({
+      message: "Book updated successfully",
+      book: updatedBook,
+    });
+  } catch (error) {
+    console.error("Error updating a book", error);
+    res.status(500).send({ message: "Failed to update a book" });
   }
 };
 
