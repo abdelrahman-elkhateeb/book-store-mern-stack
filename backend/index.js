@@ -1,43 +1,51 @@
 const express = require("express");
-const mongoose = require("mongoose");
-const app = express();
+const dotenv = require("dotenv");
 const cors = require("cors");
+const helmet = require("helmet");
+const connectDB = require("./config/db.js");
+const bookRoutes = require("./src/books/book.route");
 
-const port = process.env.PORT || 5000;
-require("dotenv").config();
+dotenv.config();
 
-//middleware
-app.use(express.json());
+const app = express();
 
+// Middleware
 app.use(
   cors({
     origin: [
       "http://localhost:5173",
       "https://book-store-mern-stack-frontend-five.vercel.app",
     ],
+    methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
   }),
 );
 
-//route
-const bookRoutes = require("./src/books/book.route");
-const orderRoutes = require("./src/orders/order.route");
-const userRoutes = require("./src/users/user.route");
-const adminRoutes = require("./src/stats/admin.stats");
+app.use(helmet());
+app.use(express.json());
 
-app.use("/api/books", bookRoutes);
-app.use("/api/orders", orderRoutes);
-app.use("/api/auth", userRoutes);
-app.use("/api/admin", adminRoutes);
+// Connect to Database and Start Server
+connectDB()
+  .then(() => {
+    app.use("/api/books", bookRoutes);
 
-main()
-  .then(() => console.log("MongoDB connected successfully!"))
-  .catch((err) => console.log(err));
+    // Health Check
+    app.get("/health", async (req, res) => {
+      try {
+        await mongoose.connection.db.admin().ping();
+        res.status(200).json({ status: "Database is connected" });
+      } catch (error) {
+        res
+          .status(500)
+          .json({ status: "Database connection failed", error: error.message });
+      }
+    });
 
-async function main() {
-  await mongoose.connect(process.env.DB_URL);
-}
-
-app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`);
-});
+    app.listen(process.env.PORT || 5000, () => {
+      console.log("Server running...");
+    });
+  })
+  .catch((err) => {
+    console.error("Database connection failed:", err.message);
+    process.exit(1);
+  });
