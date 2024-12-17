@@ -8,6 +8,7 @@ const {
   updateBook,
   deleteBook,
 } = require("./book.controller");
+const verifyAdminToken = require("../middleware/verifyAdminToken");
 
 // GET all books
 
@@ -16,9 +17,9 @@ const {
 //put/patch = when edit or update smth
 //delete = when delete smth
 
-router.post("/create-book", postABook);
+router.post("/create-book", verifyAdminToken, postABook);
 router.get("/", getAllBooks);
 router.get("/:id", getSingleBook);
-router.put("/edit/:id", updateBook);
-router.delete("/delete/:id", deleteBook);
+router.put("/edit/:id", verifyAdminToken, updateBook);
+router.delete("/delete/:id", verifyAdminToken, deleteBook);
 module.exports = router;
