@@ -1,51 +1,59 @@
 const express = require("express");
-const dotenv = require("dotenv");
+const mongoose = require("mongoose");
 const cors = require("cors");
-const helmet = require("helmet");
-const connectDB = require("./config/db.js");
-const bookRoutes = require("./src/books/book.route");
-
-dotenv.config();
+require("dotenv").config();
 
 const app = express();
+const port = process.env.PORT || 5000;
 
 // Middleware
+app.use(express.json());
+
+// CORS Configuration
 app.use(
   cors({
     origin: [
-      "http://localhost:5173",
-      "https://book-store-mern-stack-frontend-five.vercel.app",
+      "http://localhost:5173", // Local development frontend
+      "https://book-store-mern-stack-frontend-five.vercel.app", // Deployed frontend
     ],
-    methods: ["GET", "POST", "PUT", "DELETE"],
-    credentials: true,
+    methods: ["GET", "POST", "PUT", "DELETE"], // Allowed HTTP methods
+    credentials: true, // Allow cookies and credentials
   }),
 );
 
-app.use(helmet());
-app.use(express.json());
-
-// Connect to Database and Start Server
-connectDB()
-  .then(() => {
-    app.use("/api/books", bookRoutes);
-
-    // Health Check
-    app.get("/health", async (req, res) => {
-      try {
-        await mongoose.connection.db.admin().ping();
-        res.status(200).json({ status: "Database is connected" });
-      } catch (error) {
-        res
-          .status(500)
-          .json({ status: "Database connection failed", error: error.message });
-      }
+// MongoDB Connection
+async function connectToDB() {
+  try {
+    await mongoose.connect(process.env.DB_URL, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
     });
-
-    app.listen(process.env.PORT || 5000, () => {
-      console.log("Server running...");
-    });
-  })
-  .catch((err) => {
-    console.error("Database connection failed:", err.message);
+    console.log("MongoDB connected successfully!");
+  } catch (error) {
+    console.error("MongoDB connection failed:", error.message);
     process.exit(1);
+  }
+}
+
+// Routes
+const bookRoutes = require("./src/books/book.route");
+const orderRoutes = require("./src/orders/order.route");
+const userRoutes = require("./src/users/user.route");
+const adminRoutes = require("./src/stats/admin.stats");
+
+app.use("/api/books", bookRoutes);
+app.use("/api/orders", orderRoutes);
+app.use("/api/auth", userRoutes);
+app.use("/api/admin", adminRoutes);
+
+// Health Check Endpoint
+app.get("/health", (req, res) => {
+  res.status(200).json({ message: "Backend is running fine!" });
+});
+
+// Start Server
+connectToDB().then(() => {
+  app.listen(port, () => {
+    console.log(`Server is running on port ${port}`);
   });
+});
