@@ -9,13 +9,13 @@ const port = process.env.PORT || 5000;
 // Middleware
 app.use(express.json());
 
-// CORS Configuration
-// app.use(
-//   cors({
-//     origin: "https://book-store-mern-stack-frontend-five.vercel.app",
-//     credentials: true,
-//   }),
-// );
+CORS Configuration
+app.use(
+  cors({
+    origin: "https://book-store-mern-stack-frontend-five.vercel.app",
+    credentials: true,
+  }),
+);
 
 // MongoDB Connection
 async function connectToDB() {
@@ -38,10 +38,10 @@ const userRoutes = require("./src/users/user.route");
 const adminRoutes = require("./src/stats/admin.stats");
 
 app.get("/", (req, res) => res.status(200).json({ message: "mocha was here" }));
-// app.use("/api/books", bookRoutes);
-// app.use("/api/orders", orderRoutes);
-// app.use("/api/auth", userRoutes);
-// app.use("/api/admin", adminRoutes);
+app.use("/api/books", bookRoutes);
+app.use("/api/orders", orderRoutes);
+app.use("/api/auth", userRoutes);
+app.use("/api/admin", adminRoutes);
 
 // Health Check Endpoint
 app.get("/health", (req, res) => {
@@ -49,14 +49,14 @@ app.get("/health", (req, res) => {
 });
 
 // Start Server
-app.listen(5000, () => {
-  console.log(
-    "Server is running on port 5000 \n\n\n\n\n\n\n\n\n\n\n a3333333333333333333333333",
-  );
-});
-
-// connectToDB().then(() => {
-//   app.listen(port, () => {
-//     console.log(`Server is running on port ${port}`);
-//   });
+// app.listen(5000, () => {
+//   console.log(
+//     "Server is running on port 5000 \n\n\n\n\n\n\n\n\n\n\n a3333333333333333333333333",
+//   );
 // });
+
+connectToDB().then(() => {
+  app.listen(port, () => {
+    console.log(`Server is running on port ${port}`);
+  });
+});
