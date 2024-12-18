@@ -9,7 +9,7 @@ const port = process.env.PORT || 5000;
 // Middleware
 app.use(express.json());
 
-CORS Configuration
+// CORS Configuration
 app.use(
   cors({
     origin: "https://book-store-mern-stack-frontend-five.vercel.app",
@@ -38,6 +38,7 @@ const userRoutes = require("./src/users/user.route");
 const adminRoutes = require("./src/stats/admin.stats");
 
 app.get("/", (req, res) => res.status(200).json({ message: "mocha was here" }));
+
 app.use("/api/books", bookRoutes);
 app.use("/api/orders", orderRoutes);
 app.use("/api/auth", userRoutes);
