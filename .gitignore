@@ -1,0 +1,55 @@
+# Logs
+/backend/logs
+/backend/*.log
+/backend/npm-debug.log*
+/backend/yarn-debug.log*
+/backend/yarn-error.log*
+/backend/pnpm-debug.log*
+/backend/lerna-debug.log*
+
+# Dependencies
+/backend/node_modules
+
+# Build Output
+/backend/dist
+/backend/dist-ssr
+/backend/*.local
+
+# Editor Directories and Files
+/backend/.vscode/*
+/backend/!.vscode/extensions.json
+/backend/.idea
+/backend/.DS_Store
+/backend/*.suo
+/backend/*.ntvs*
+/backend/*.njsproj
+/backend/*.sln
+/backend/*.sw?
+
+# Logs
+/frontend/logs
+/frontend/*.log
+/frontend/npm-debug.log*
+/frontend/yarn-debug.log*
+/frontend/yarn-error.log*
+/frontend/pnpm-debug.log*
+/frontend/lerna-debug.log*
+
+# Dependencies
+/frontend/node_modules
+
+# Build Output
+/frontend/dist
+/frontend/dist-ssr
+/frontend/*.local
+
+# Editor Directories and Files
+/frontend/.vscode/*
+/frontend/!.vscode/extensions.json
+/frontend/.idea
+/frontend/.DS_Store
+/frontend/*.suo
+/frontend/*.ntvs*
+/frontend/*.njsproj
+/frontend/*.sln
+/frontend/*.sw?
