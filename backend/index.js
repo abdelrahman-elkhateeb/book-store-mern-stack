@@ -12,9 +12,8 @@ app.use(express.json());
 // CORS Configuration
 app.use(
   cors({
-    origin: "*",
-    methods: ["GET", "POST", "PUT", "DELETE"], // Allowed HTTP methods
-    credentials: true, // Allow cookies and credentials
+    origin: "https://book-store-mern-stack-frontend-five.vercel.app",
+    credentials: true,
   }),
 );
 
