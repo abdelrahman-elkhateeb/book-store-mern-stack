@@ -17,8 +17,8 @@ const verifyAdminToken = require("../middleware/verifyAdminToken");
 //put/patch = when edit or update smth
 //delete = when delete smth
 
-router.post("/create-book", verifyAdminToken, postABook);
 router.get("/", getAllBooks);
+router.post("/create-book", verifyAdminToken, postABook);
 router.get("/:id", getSingleBook);
 router.put("/edit/:id", verifyAdminToken, updateBook);
 router.delete("/delete/:id", verifyAdminToken, deleteBook);
