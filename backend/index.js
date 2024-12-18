@@ -49,8 +49,13 @@ app.get("/health", (req, res) => {
 });
 
 // Start Server
-connectToDB().then(() => {
-  app.listen(port, () => {
-    console.log(`Server is running on port ${port}`);
-  });
+app.listen(5000, () => {
+  console.log(
+    "Server is running on port 5000 \n\n\n\n\n\n\n\n\n\n\n a3333333333333333333333333",
+  );
 });
+// connectToDB().then(() => {
+//   app.listen(port, () => {
+//     console.log(`Server is running on port ${port}`);
+//   });
+// });
