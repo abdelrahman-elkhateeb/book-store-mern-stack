@@ -1,9 +1,12 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
+const globalErrorHandler = require("./utils/errController");
+const AppError = require("./utils/appError");
 require("dotenv").config();
 
 const app = express();
+
 const port = process.env.PORT || 5000;
 
 // Middleware
@@ -12,7 +15,10 @@ app.use(express.json());
 // CORS Configuration
 app.use(
   cors({
-    origin: "https://book-store-mern-stack-frontend-five.vercel.app",
+    origin: [
+      "http://localhost:5173",
+      "https://book-store-mern-stack-frontend-five.vercel.app",
+    ],
     credentials: true,
   }),
 );
@@ -37,12 +43,16 @@ const orderRoutes = require("./src/orders/order.route");
 const userRoutes = require("./src/users/user.route");
 const adminRoutes = require("./src/stats/admin.stats");
 
-app.get("/", (req, res) => res.status(200).json({ message: "mocha was here" }));
-
 app.use("/api/books", bookRoutes);
 app.use("/api/orders", orderRoutes);
 app.use("/api/auth", userRoutes);
 app.use("/api/admin", adminRoutes);
+
+app.all("*", (req, res, next) => {
+  next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));
+});
+
+app.use(globalErrorHandler);
 
 // Health Check Endpoint
 app.get("/health", (req, res) => {
