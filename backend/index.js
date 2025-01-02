@@ -15,10 +15,8 @@ app.use(express.json());
 // CORS Configuration
 app.use(
   cors({
-    origin: [
-      "http://localhost:5173",
-      "https://book-store-mern-stack-frontend-five.vercel.app",
-    ],
+    origin: "https://book-store-mern-stack-frontend-five.vercel.app",
+
     credentials: true,
   }),
 );
