@@ -21,35 +21,35 @@ app.use(
 );
 
 // MongoDB Connection
-// async function connectToDB() {
-//   try {
-//     await mongoose.connect(process.env.DB_URL, {
-//       useNewUrlParser: true,
-//       useUnifiedTopology: true,
-//     });
-//     console.log("MongoDB connected successfully!");
-//   } catch (error) {
-//     console.error("MongoDB connection failed:", error.message);
-//     process.exit(1);
-//   }
-// }
+async function connectToDB() {
+  try {
+    await mongoose.connect(process.env.DB_URL, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    });
+    console.log("MongoDB connected successfully!");
+  } catch (error) {
+    console.error("MongoDB connection failed:", error.message);
+    process.exit(1);
+  }
+}
 
 // Routes
-// const bookRoutes = require("./src/books/book.route");
-// const orderRoutes = require("./src/orders/order.route");
-// const userRoutes = require("./src/users/user.route");
-// const adminRoutes = require("./src/stats/admin.stats");
+const bookRoutes = require("./src/books/book.route");
+const orderRoutes = require("./src/orders/order.route");
+const userRoutes = require("./src/users/user.route");
+const adminRoutes = require("./src/stats/admin.stats");
 
-// app.use("/api/books", bookRoutes);
-// app.use("/api/orders", orderRoutes);
-// app.use("/api/auth", userRoutes);
-// app.use("/api/admin", adminRoutes);
+app.use("/api/books", bookRoutes);
+app.use("/api/orders", orderRoutes);
+app.use("/api/auth", userRoutes);
+app.use("/api/admin", adminRoutes);
 
-// app.all("*", (req, res, next) => {
-//   next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));
-// });
+app.all("*", (req, res, next) => {
+  next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));
+});
 
-// app.use(globalErrorHandler);
+app.use(globalErrorHandler);
 
 // Health Check Endpoint
 app.get("/health", (req, res) => {
@@ -63,8 +63,8 @@ app.get("/health", (req, res) => {
 //   );
 // });
 
-// connectToDB().then(() => {
-//   app.listen(port, () => {
-//     console.log(`Server is running on port ${port}`);
-//   });
-// });
+connectToDB().then(() => {
+  app.listen(port, () => {
+    console.log(`Server is running on port ${port}`);
+  });
+});
